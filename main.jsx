@@ -1,3 +1,5 @@
+// v2: three cause tags added (Unnecessary Boast, Poor Spacing, Late Preparation) with advice + exploit lines,
+// named to match the Checkerboard Match Problem Index. Nothing else changed.
 // MATCH ANALYSIS — standalone app, split out of Checkerboard main v744 (coach decision 17 Sep, brief §8).
 // v1 carries the Live Match Coaching suite unchanged: Fast Capture, Court Trace (dual), Between Game
 // Report, Match History, plus the matchTrace / courtTraceGame live player displays and their two court
@@ -10,7 +12,7 @@ import React,{useEffect,useMemo,useRef,useState}from'react';
 import{createRoot}from'react-dom/client';
 import'./styles.css';
 
-const APP_VERSION='v1 Match Analysis Split';
+const APP_VERSION='v2 New Cause Tags';
 
 // ── LIVE PLAYER VIEW SYNC (Supabase REST; no extra package required) ─────────
 const SUPABASE_URL='https://pjohecwpciwexvtmvkdz.supabase.co';
@@ -306,7 +308,7 @@ function LiveMatchTapAnalysis({setScreen}){
 
 function LiveMatchCoaching({setScreen}){
   const FAST_KEY='checkerboard_live_match_fast_v224';
-  const LOSER_CAUSES=['Return Of Serve – No Volley','Loose Boast','Loose Drop','Loose Drive','Loose Mid-court','Loose Lob','Forced Loose Return','Non-Functional Cross Court','No T Recovery','Vision – Not Reading Opponent','Self Created Pressure Attacking','Opponent Set When Attacking','Hitting Back To Opponent'];
+  const LOSER_CAUSES=['Return Of Serve – No Volley','Loose Boast','Loose Drop','Loose Drive','Loose Mid-court','Loose Lob','Forced Loose Return','Non-Functional Cross Court','No T Recovery','Vision – Not Reading Opponent','Self Created Pressure Attacking','Opponent Set When Attacking','Hitting Back To Opponent','Unnecessary Boast','Poor Spacing','Late Preparation'];
   const WINNER_CAUSES=['Tight Ball','High Quality Shot','Deception Hold','Unreachable Quality','Quality Forced A Loose Reply','Quality Moved Player Out Of Position'];
   const OUTCOMES=['Forced Error','Unforced Error','Tin','Out','Stroke','Let','No Let','Winner short straight','Winner short cross','Winner long straight','Winner long cross'];
   const ADVICE={
@@ -333,6 +335,9 @@ function LiveMatchCoaching({setScreen}){
     'Tight Ball':{primary:'Move earlier so you are not scraping the tight ball off the wall.',secondary:'Take the tight ball high and straight. Do not try to do more than return it.',prescribe:['Early Movement','Tight Ball Return','Straight Reset']},
     'High Quality Shot':{primary:'Keep the rally going with your best straight ball. Do not force an answer.',secondary:'Their quality arrives because your previous ball let them in. Check the ball before it.',prescribe:['Working Length','Functional Length','Return to Sender']},
     'Deception Hold':{primary:'Hold your position until they have hit the ball.',secondary:'Stay on the T a beat longer. Commit on contact, not on the swing.',prescribe:['Wait on the Hold','Split-step on Contact','Read the Racket']},
+    'Unnecessary Boast':{primary:'Drive it straight when you can — keep the boast for when the straight ball has gone.',secondary:'A boast from a playable ball hands them the front of the court. Length first.',prescribe:['Boast with a Plan','Straight Before Boast','Working Length']},
+    'Poor Spacing':{primary:'Arrive a step early and let the ball come to you.',secondary:'Stop short of the ball rather than running into it, so there is room to swing.',prescribe:['Overrun','Two Steps','Recovery Race']},
+    'Late Preparation':{primary:'Read their shot earlier so you are ready before the ball arrives.',secondary:'Watch their racquet, not just the ball — the earlier you read it, the more time you have.',prescribe:['Eyes On The Striker','Shot Clock','Early Read']},
     'No cause — clean error':{primary:'Nothing is forcing these. Build margin: aim higher above the tin and deeper until the clean errors stop.',secondary:'Take pace off and give yourself a target on the front wall before you go for anything.',prescribe:['Margin Above Tin','Length First','Reset Rally']}
   };
   const empty={mode:'menu',gameNo:1,scoreA:'',scoreB:'',rallyNo:1,server:'',playerNames:{playerA:'Player A',playerB:'Player B'},current:{winner:'',player:'',cause:'',outcome:'',pressureZone:'',causeSel:[],outcomeSel:[]},events:[],myPlayer:'playerA',reportLens:'corner',completedGames:[],matches:[]};
@@ -386,6 +391,9 @@ function LiveMatchCoaching({setScreen}){
     'Tight Ball':{primary:'Your tight ball is beating them. Keep it tight.',secondary:'Same line, same height. They cannot get it off the wall.',exploit:['Repeat the Winning Line','Functional Length','Working Length']},
     'High Quality Shot':{primary:'Your quality is winning points. Keep building for it.',secondary:'Do not rush the finish. The quality comes from the ball before.',exploit:['Build then Finish','Press the Advantage','Sustain the Attack']},
     'Deception Hold':{primary:'Your holds are landing. Keep them.',secondary:'Hold a beat longer and go the other way when they commit.',exploit:['Hold and Deceive','Wrong-foot on Commit','Front-court Hold']},
+    'Unnecessary Boast':{primary:'They boast when they could drive. Hold the T and step in on the boast.',secondary:'Cover the front early and counter-drop or drive it past them.',exploit:['Anticipate the Boast','Counter-Drop Read','Punish the Loose Ball']},
+    'Poor Spacing':{primary:'They crowd the ball. Play straight and tight into their body.',secondary:'Tight, straight balls leave them the least room to swing.',exploit:['Tight Length Trap','Into the Body','Deny Time']},
+    'Late Preparation':{primary:'They prepare late. Take time away — volley and hit early.',secondary:'Pace and early contact rush them into errors.',exploit:['Deny Time','Tempo Squeeze','Volley Intercept']},
     'No cause — clean error':{primary:'They are giving points away unforced. Keep the ball in and let them.',secondary:'No risk needed. Long rallies, tight lines, and wait for the next one.',exploit:['Keep the Ball In','Working Length','Patience Rally']}
   };
   const lens=state.reportLens==='group'?'group':'corner';
